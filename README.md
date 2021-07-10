@@ -53,4 +53,4 @@ There is multiple user-friendly things to add that I won't bother add that anyon
 
 
 ## License
-GNU
+GPL
