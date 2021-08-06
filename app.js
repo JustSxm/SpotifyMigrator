@@ -33,7 +33,12 @@ app.get('/', (req, res) => {
 
 // Liked Songs Login and Logout
 app.get('/LikedSongs', (req, res) => {
-    res.sendFile(path.join(__dirname,'html/LikedSongs.html'))
+    if(oldAccount){
+        res.sendFile(path.join(__dirname,'html/LikedSongs.html'))
+    }
+    else {
+        res.sendFile(path.join(__dirname,'html/LikedSongsNew.html'))
+    }
 })
 
 app.get('/LikedSongsLogin', (req, res) => {
@@ -177,7 +182,13 @@ app.get('/Done', (req, res) => {
  *
  */
 app.get('/TransferPlaylists', (req, res) => {
-    res.sendFile(path.join(__dirname,'html/TransferPlaylists.html'))
+    if(oldAccount){
+        res.sendFile(path.join(__dirname,'html/TransferPlaylists.html'))
+    }
+    else {
+        res.sendFile(path.join(__dirname,'html/TransferPlaylistsNew.html'))
+    }
+
 })
 
 app.get('/PlaylistLogin', (req, res) => {
@@ -248,7 +259,7 @@ app.get('/PlaylistsCallback', (req, res) => {
                             //res.sendFile(path.join(__dirname,'html/CurrentlyWorking.html'));
                             request('http://localhost:3000/addPlaylists',{} ,function (error, response, body) {
                                 if(body === "ok"){
-                                    res.redirect('/Done')
+                                    res.redirect('/DonePlaylist')
                                 }
                             })
                             oldAccount = true;
@@ -378,6 +389,11 @@ app.get('/addPlaylists', async (req, res) => {
     //res.redirect('/Done.html')
     res.send('ok');
 });
+
+app.get('/DonePlaylist', (req, res) => {
+    res.sendFile(path.join(__dirname,'html/DonePlaylist.html'))
+})
+
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
 })
