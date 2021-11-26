@@ -99,7 +99,7 @@ app.get('/LikedSongsCallback', (req, res) => {
                             //res.sendFile(path.join(__dirname,'html/CurrentlyWorking.html'));
                             request('http://localhost:3000/getLikedSongs',{} ,function (error, response, body) {
                                 if(body === "ok"){
-                                    res.redirect('/LikedSongsNew')
+                                    res.redirect('/LikedSongs')
                                 }
                             })
                         }
