@@ -1,6 +1,5 @@
 # Spotify Migrator
 Spotify Migrator is an application to transfer your spotify data from an account to another
-
 If you find it useful, make sure to star.
 
 ## Features
@@ -30,8 +29,7 @@ Once you created your application, we will need to edit some informations.
 #### Setting up the application
 1. Click on "Edit Settings"
 2. Go to RedirectURI and add the values:
-- http://localhost:3000/LikedSongsCallback
-- http://localhost:3000/PlaylistsCallback
+- http://localhost:3000/callback
 3. Save
 4. Go to Users and Access
 5. Add the email of the other account you are not currently logged in (new or old) to give it access to the application.
@@ -45,15 +43,13 @@ node app.js
 ```
 Then visit localhost:3000 on your browser.
 
-## Note: IF YOU DO NOT RECEIVE ANY ERRORS IT MEANS ITS WORKING. 
-Loading who seems infinite are only because it is sending request to spotify over and over without having an actual "wait" page. Anyone willing to add a wait page is free to open a pull request.
-
 ## Development
 Want to contribute? Great!
 There is multiple user-friendly things to add that I won't bother add that anyone could do.
 
-- [ ] CSS / Prettier pages
-- [ ] Wait page while requests are being sent
+- [x] CSS / Prettier pages
+- [x] Wait page while requests are being sent
+- [ ] Reduce the time every second.
 
 
 ## License
