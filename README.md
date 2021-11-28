@@ -12,7 +12,8 @@ If you find it useful, make sure to star.
 -  [ ] Add you to your collaborative playlists
 -  [ ] Mark your collaborative playlist as collaborative instead of only public/private
 -  [ ] Save Podcasts
-  
+## V1
+You can still use V1 of Spotify Migrator(its a branch) if you want to, but I wouldnt recommend it, this project is meant to be evolutive and get better everytime I get bored.
 ## Installation
 
 This application requires [Node.js](https://nodejs.org/) v10+ to run.
