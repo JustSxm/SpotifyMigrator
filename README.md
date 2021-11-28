@@ -1,7 +1,7 @@
 # Spotify Migrator
 Spotify Migrator is an application to transfer your spotify data from an account to another  
 I never found an online service who did what I wanted, so I made this.  
-###If you find it useful, make sure to star Thank you!.
+### If you find it useful, make sure to star Thank you!.
 
 ## Features
 
