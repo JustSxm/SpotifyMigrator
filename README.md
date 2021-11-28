@@ -29,11 +29,11 @@ Once you created your application, we will need to edit some informations.
 #### Setting up the application
 1. Click on "Edit Settings"
 2. Go to RedirectURI and add the values:
-- http://localhost:3000/callback
+- http://localhost:3000/callback  
 ![Image to Explain Step 2](https://raw.githubusercontent.com/JustSxm/SpotifyMigrator/master/meta/redirect.PNG)
-3. Save
+3. Save  
 ![Image to Explain Step 3](https://raw.githubusercontent.com/JustSxm/SpotifyMigrator/master/meta/Save.PNG)
-4. Go to Users and Access
+4. Go to Users and Access  
 ![Image to Explain Step 4](https://raw.githubusercontent.com/JustSxm/SpotifyMigrator/master/meta/UserAndAccess.PNG)
 5. Add the email of the other account you are not currently logged in (new or old) to give it access to the application.
 
