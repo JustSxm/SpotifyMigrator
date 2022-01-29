@@ -53,7 +53,7 @@ Want to contribute? Great!
 There is multiple user-friendly things to add that I won't bother add that anyone could do.
 
 - [x] CSS / Prettier pages
-- [x] Wait page while requests are being sent
+- [ ] Wait page while requests are being sent
 - [ ] Reduce the time every second.
 
 
