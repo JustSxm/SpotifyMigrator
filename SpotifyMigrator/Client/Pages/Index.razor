@@ -1,0 +1,24 @@
+﻿@page "/"
+@using SpotifyAPI.Web;
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@inject HttpClient HttpClient
+@inject NavigationManager NavManager
+
+<div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: 20em; height: 20em; text-align: center">
+    <h1>Spotify Migrator</h1>
+    <h2>It's ugly: but it works.</h2>
+    <Button Color="Color.Primary" Outline onclick="@LoginToSpotify" Style="width: 100%">Login</Button>
+</div>
+
+@code {
+    private async Task LoginToSpotify()
+    {
+        var loginRequest = new LoginRequest(new Uri("http://localhost:5009/api/Spotify"), Configuration["ClientId"] ?? throw new Exception("Client ID not set in appsettings"), LoginRequest.ResponseType.Code)
+            {
+                Scope = new[] { Scopes.PlaylistModifyPrivate, Scopes.PlaylistModifyPublic, Scopes.PlaylistReadPrivate, Scopes.UserLibraryRead, Scopes.UserModifyPlaybackState, Scopes.UserReadPrivate }
+            };
+        var uri = loginRequest.ToUri().AbsoluteUri;
+        NavManager.NavigateTo(uri);
+    }
+}
