@@ -56,7 +56,7 @@
     private async Task CreatePlaylist()
     {
         var response = await HttpClient.PostAsJsonAsync("api/Spotify/CreatePlaylist", new { Name = CurrentValue });
-        SpotifyInfos.Playlists.Add(await response.Content.ReadFromJsonAsync<PlaylistInfo>(););
+        SpotifyInfos.Playlists.Add(await response.Content.ReadFromJsonAsync<PlaylistInfo>());
         CurrentValue = "";
     }
 

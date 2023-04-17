@@ -48,7 +48,7 @@ namespace SpotifyMigrator.Server.Controllers
             Queue<SavedTrack> tracks = new Queue<SavedTrack>();
             var request = new LibraryTracksRequest();
             request.Limit = 50;
-            request.Offset = 0;
+            request.Offset = int.Parse(Configuration["Offset"]);
             while (true)
             {
                 var test = await SpotifySingleton.Client.Library.GetTracks(request);

@@ -7,11 +7,16 @@
     <h1>Spotify Migrator</h1>
     <h2>What do you want to do?</h2>
     <Button Color="Color.Primary" Outline onclick="@GoToLikedToMultiple" Style="width: 100%">Split my Liked Songs into Multiple Playlists</Button>
+    <Button Color="Color.Primary" Outline onclick="@GoToMigrateLikedSongs" Style="width: 100%; margin-top: 2em">Migrate liked songs in order</Button>
 </div>
 
 @code {
     private async Task GoToLikedToMultiple()
     {
         NavManager.NavigateTo("/likedtomultiple");
+    }
+    private async Task GoToMigrateLikedSongs()
+    {
+        NavManager.NavigateTo("/migratelikedsongs");
     }
 }
