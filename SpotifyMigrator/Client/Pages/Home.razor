@@ -1,0 +1,23 @@
+﻿@page "/home"
+@using SpotifyAPI.Web;
+@using Microsoft.Extensions.Configuration
+@inject NavigationManager NavManager
+
+<div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: 20em; height: 20em; text-align: center">
+    <h1>Spotify Migrator</h1>
+    <h2>What do you want to do?</h2>
+    <Button Color="Color.Primary" Outline onclick="@GoToLikedToMultiple" Style="width: 100%">Split my Liked Songs into multiple playlists</Button>
+    <Button Color="Color.Primary" Outline onclick="@GoToMigrateAccount" Style="width: 100%; margin-top: 5%">Migrate an old account to a new account</Button>
+</div>
+
+@code {
+    private async Task GoToLikedToMultiple()
+    {
+        NavManager.NavigateTo("/likedtomultiple");
+    }
+
+    private async Task GoToMigrateAccount()
+    {
+        NavManager.NavigateTo("/loginnewaccount");
+    }
+}
