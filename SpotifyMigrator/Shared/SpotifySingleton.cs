@@ -4,7 +4,8 @@ namespace SpotifyMigrator.Shared
 {
     public class SpotifySingleton
     {
-        public static SpotifyClient Client { get; set; }
-        public static PrivateUser Me { get; set; }
+        public List<SpotifyClient> Client = new();
+        public List<PrivateUser> Me = new();
+        public MigrateStartDTO? Migration = null;
     }
 }

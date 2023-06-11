@@ -1,0 +1,75 @@
+﻿@page "/homemigrate"
+@using SpotifyAPI.Web;
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.Extensions.Configuration
+@using Blazorise.LoadingIndicator
+@using SpotifyMigrator.Shared;
+@implements IAsyncDisposable
+@inject NavigationManager NavManager
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime;
+
+<div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: 20em; height: 20em; text-align: center">
+    <h1>Spotify Migrator</h1>
+    @if (!startedTransfer)
+    {
+        <h2>What do you want to do?</h2>
+        <Check TValue="bool" @bind-Checked="@migrateLikedSongs">Migrate liked songs in order</Check>
+        <Check TValue="bool" @bind-Checked="@migratePlaylists">Migrate your playlists in order</Check>
+        <Button Color="Color.Primary" Outline onclick="@StartTransfer" Style="width: 100%">Start Transfer</Button>
+    } else {
+        <h2>@Title</h2>
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        <div style="margin-top: 10%"></div>
+    }
+</div>
+
+@code {
+    private HubConnection? hubConnection;
+    bool startedTransfer = false;
+    bool migrateLikedSongs;
+    bool migratePlaylists;
+    int Percent = 15;
+    string Title = "";
+
+    private async Task StartTransfer()
+    {
+        startedTransfer = true;
+        Title = "Starting transfer";
+
+        var body = new MigrateStartDTO()
+        {
+            LikedSongs = migrateLikedSongs,
+            Playlists = migratePlaylists
+        };
+        await HttpClient.PostAsJsonAsync("api/Spotify/MigrateAccount", body);
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavManager.ToAbsoluteUri("/hub"))
+            .Build();
+
+        hubConnection.On<string>("MigrateUpdate", (message) =>
+        {
+            if(message == "Done")
+            {
+                NavManager.NavigateTo("/done");
+            }
+            Title = message;
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

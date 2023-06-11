@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
-using SpotifyMigrator.Client;
 using SpotifyMigrator.Shared;
 using System.Text.Json.Nodes;
 
@@ -13,9 +11,11 @@ namespace SpotifyMigrator.Server.Controllers
     {
 
         public IConfiguration Configuration { get; set; }
-        public SpotifyController(IConfiguration configuration)
+        public SpotifySingleton Spotify { get; set; }
+        public SpotifyController(IConfiguration configuration, SpotifySingleton spotifySingleton)
         {
             Configuration = configuration;
+            Spotify = spotifySingleton;
         }
 
         [HttpGet]
@@ -28,17 +28,27 @@ namespace SpotifyMigrator.Server.Controllers
             .CreateDefault()
                .WithAuthenticator(new AuthorizationCodeAuthenticator(Configuration["ClientId"], Configuration["ClientSecret"], response));
 
-            SpotifySingleton.Client = new SpotifyClient(config);
-            SpotifySingleton.Me = await SpotifySingleton.Client.UserProfile.Current();
+            var spotifyClient = new SpotifyClient(config);
+            Spotify.Client.Add(spotifyClient);
+            Spotify.Me.Add(await spotifyClient.UserProfile.Current());
 
-            Response.Redirect("/home");
+            if (Spotify.Client.Count == 1)
+            {
+                Response.Redirect("/home");
+            } else
+            {
+                Response.Redirect("/homemigrate");
+            }
         }
 
+        /*
+         *  Single Account Endpoints
+         */
         [HttpPost("CreatePlaylist")]
         public async Task<IActionResult> CreatePlaylist([FromBody] JsonObject name)
         {
             string playlistName = (string)name["name"];
-            var playlist = await SpotifySingleton.Client.Playlists.Create(SpotifySingleton.Me.Id, new PlaylistCreateRequest(playlistName));
+            var playlist = await Spotify.Client.First().Playlists.Create(Spotify.Me.First().Id, new PlaylistCreateRequest(playlistName));
             return Ok(new PlaylistInfo(playlistName, playlist.Id));
         }
 
@@ -51,7 +61,7 @@ namespace SpotifyMigrator.Server.Controllers
             request.Offset = 0;
             while (true)
             {
-                var test = await SpotifySingleton.Client.Library.GetTracks(request);
+                var test = await Spotify.Client.First().Library.GetTracks(request);
                 foreach (var item in test.Items)
                 {
                     tracks.Enqueue(item);
@@ -73,7 +83,7 @@ namespace SpotifyMigrator.Server.Controllers
             var plReq = new PlayerResumePlaybackRequest();
             plReq.Uris = new List<string> { uri };
             plReq.PositionMs = 30000;
-            await SpotifySingleton.Client.Player.ResumePlayback(plReq);
+            await Spotify.Client.First().Player.ResumePlayback(plReq);
             return Ok();
         }
 
@@ -82,7 +92,14 @@ namespace SpotifyMigrator.Server.Controllers
         {
             string playlistId = (string)obj["playlistId"];
             string trackId = (string)obj["trackId"];
-            await SpotifySingleton.Client.Playlists.AddItems(playlistId, new PlaylistAddItemsRequest(new List<string> { trackId }));
+            await Spotify.Client.First().Playlists.AddItems(playlistId, new PlaylistAddItemsRequest(new List<string> { trackId }));
+            return Ok();
+        }
+
+        [HttpPost("MigrateAccount")]
+        public async Task<IActionResult> MigrateAccount([FromBody] MigrateStartDTO body)
+        {
+            Spotify.Migration = body;
             return Ok();
         }
     }

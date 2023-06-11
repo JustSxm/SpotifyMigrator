@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/loginnewaccount"
 @using SpotifyAPI.Web;
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
@@ -6,14 +6,13 @@
 @inject NavigationManager NavManager
 @inject IJSRuntime JSRuntime
 
-
 <div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: 20em; height: 20em; text-align: center">
     <h1>Spotify Migrator</h1>
     <h2>It's ugly: but it works.</h2>
     <h4>Make sure to logout first</h4>
     <Button Color="Color.Primary" Outline onclick="@Logout" Style="width: 100%">Logout</Button>
-    <Button Color="Color.Primary" Outline onclick="@LoginToSpotify" Style="width: 100%; margin-top: 5%">Login</Button>
-    <small>* If you're using this to migrate songs to a new account, login with your old account. </small>
+
+    <Button Color="Color.Primary" Outline onclick="@LoginToSpotify" Style="width: 100%; margin-top: 5%">Login to a new account</Button>
 </div>
 
 @code {
