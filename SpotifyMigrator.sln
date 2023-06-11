@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyMigrator.Server", "SpotifyMigrator\Server\SpotifyMigrator.Server.csproj", "{9B271A4A-8F60-4AC2-AA1E-C60250D917BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyMigrator.Server", "SpotifyMigrator\Server\SpotifyMigrator.Server.csproj", "{9B271A4A-8F60-4AC2-AA1E-C60250D917BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyMigrator.Client", "SpotifyMigrator\Client\SpotifyMigrator.Client.csproj", "{C7017DAA-8CDD-4BCB-AC50-38E0C1DE2B17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyMigrator.Client", "SpotifyMigrator\Client\SpotifyMigrator.Client.csproj", "{C7017DAA-8CDD-4BCB-AC50-38E0C1DE2B17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyMigrator.Shared", "SpotifyMigrator\Shared\SpotifyMigrator.Shared.csproj", "{89698DF9-F45B-4678-B894-7547DB059970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyMigrator.Shared", "SpotifyMigrator\Shared\SpotifyMigrator.Shared.csproj", "{89698DF9-F45B-4678-B894-7547DB059970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

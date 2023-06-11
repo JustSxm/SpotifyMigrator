@@ -1,0 +1,25 @@
+﻿@page "/migratelikedsongs"
+@using SpotifyAPI.Web;
+@using Microsoft.Extensions.Configuration
+@inject NavigationManager NavManager
+
+<div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: 20em; height: 20em; text-align: center">
+    <h1>Spotify Migrator</h1>
+    <h2>Make sure to logout first</h2>
+    <Button Color="Color.Primary" Outline onclick="@Logout" Style="width: 50%">Logout</Button>
+    <h2>Login with your old account</h2>
+    <Button Color="Color.Primary" Outline onclick="@LoginOldAccount" Style="width: 50%">Login to Spotify</Button>
+
+</div>
+
+@code {
+    private async Task Logout()
+    {
+       
+    }
+
+    private async Task LoginOldAccount()
+    {
+
+    }
+}
