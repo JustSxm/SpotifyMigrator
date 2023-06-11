@@ -10,8 +10,7 @@
     <h1>Spotify Migrator</h1>
     <h2>It's ugly: but it works.</h2>
     <h4>Make sure to logout first</h4>
-    <Button Color="Color.Primary" Outline onclick="@Logout" Style="width: 100%">Logout</Button>
-
+    <a href="https://www.spotify.com/ca-en/logout/" target="_blank" style="all: unset;"><Button Color="Color.Primary" Style="width: 100%">Logout</Button></a>
     <Button Color="Color.Primary" Outline onclick="@LoginToSpotify" Style="width: 100%; margin-top: 5%">Login to a new account</Button>
 </div>
 
@@ -24,10 +23,5 @@
             };
         var uri = loginRequest.ToUri().AbsoluteUri;
         NavManager.NavigateTo(uri);
-    }
-
-    private async Task Logout()
-    {
-        await JSRuntime.InvokeAsync<object>("open", "https://www.spotify.com/ca-en/logout/", "_blank");
     }
 }
