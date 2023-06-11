@@ -23,6 +23,10 @@ I never found an online service who did what I wanted, so I made this.
  
 </details>
 
+## Demo
+
+![Demo](https://raw.githubusercontent.com/JustSxm/SpotifyMigrator/master/meta/demo.gif)
+
 <a name="features"/>
 
 ## Features
