@@ -34,6 +34,7 @@ I never found an online service who did what I wanted, so I made this.
 -   Transfer your liked songs in order from one account to another
 -   Transfer your playlists followed from one account to another
 -   Create a copy of your private playlists from one account to another
+-   Split your liked songs into multiple playlists
 
 <a name="requirement"/>
 
