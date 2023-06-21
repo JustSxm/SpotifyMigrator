@@ -79,8 +79,10 @@ First we need to add the settings client side.
 2. Put the Client Id of the application you just created (found in Basic Information)
 3. If you are using the application for migrating your liked songs into multiple playlists, put the id of a playlist where all the songs migrated will be put (That was pretty much made for me, If you dont need it just create a temporary playlist and delete it after using the application)
 4. Save and exit
-5. Open `appsettings.json`
-6. Put the Client Id & Client Secret of the application you just created (found in Basic Information)
+
+Second we need to add the settings server side.
+6. Open `appsettings.json`
+7. Put the Client Id & Client Secret of the application you just created (found in Basic Information)
 
 <a name="running"/>
 
