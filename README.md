@@ -81,6 +81,7 @@ First we need to add the settings client side.
 4. Save and exit
 
 Second we need to add the settings server side.
+
 6. Open `appsettings.json`
 7. Put the Client Id & Client Secret of the application you just created (found in Basic Information)
 
