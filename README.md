@@ -89,11 +89,10 @@ Second we need to add the settings server side.
 
 ## Running
 
-Download the release
 
 ### Windows :
 
-Unzip and run
+run
 `SpotifyMigrator.Server.exe
 `
 
