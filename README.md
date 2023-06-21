@@ -74,6 +74,7 @@ To use this app you will need to create an app on the [Spotify Developer Website
 
 First we need to add the settings client side.
 
+0. Download the Release from here: https://github.com/JustSxm/SpotifyMigrator/releases/download/v3/publish.zip
 1. Open `wwwroot/appsettings.json`
 2. Put the Client Id of the application you just created (found in Basic Information)
 3. If you are using the application for migrating your liked songs into multiple playlists, put the id of a playlist where all the songs migrated will be put (That was pretty much made for me, If you dont need it just create a temporary playlist and delete it after using the application)
