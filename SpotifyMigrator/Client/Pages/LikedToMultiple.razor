@@ -47,16 +47,19 @@
 
 @code {
     private bool PlaylistsCreated = false;
-    private string CurrentValue { get; set; }
-    private string ManualName { get; set; }
+    private string CurrentValue { get; set; } = String.Empty;
+    private string ManualName { get; set; } = String.Empty;
     private int Done { get; set; } = 0;
-    private string ManualCurrentValue { get; set; }
-    private string toShow { get; set; } = "";
-    private SavedTrack CurrentTrack { get; set; }
+    private string ManualCurrentValue { get; set; } = String.Empty;
+    private string toShow { get; set; } = String.Empty;
+    private SavedTrack? CurrentTrack { get; set; }
+
     private async Task CreatePlaylist()
     {
         var response = await HttpClient.PostAsJsonAsync("api/Spotify/CreatePlaylist", new { Name = CurrentValue });
-        SpotifyInfos.Playlists.Add(await response.Content.ReadFromJsonAsync<PlaylistInfo>());
+        var playlist = await response.Content.ReadFromJsonAsync<PlaylistInfo>();
+        if (playlist != null)
+            SpotifyInfos.Playlists.Add(playlist);
         CurrentValue = "";
     }
 
@@ -71,25 +74,31 @@
     {
         PlaylistsCreated = true;
         toShow = "Wait while we fetch your songs";
-        SpotifyInfos.TracksInfos = await HttpClient.GetFromJsonAsync<Queue<SavedTrack>>("api/Spotify/Songs");
-
-        var track = SpotifyInfos.TracksInfos.Dequeue();
-        CurrentTrack = track;
-        toShow = "Choose for the song: " + track.Track.Name + " (" + Done + " / " + SpotifyInfos.TracksInfos.Count() + " left)";
-
-        await HttpClient.PostAsJsonAsync("api/Spotify/Playback", new { Uri = track.Track.Uri });
+        var tracks = await HttpClient.GetFromJsonAsync<Queue<SavedTrack>>("api/Spotify/Songs");
+        if(tracks!=null)
+        {
+            SpotifyInfos.TracksInfos = tracks;
+            var track = SpotifyInfos.TracksInfos.Dequeue();
+            CurrentTrack = track;
+            toShow = "Choose for the song: " + track.Track.Name + " (" + Done + " / " + SpotifyInfos.TracksInfos.Count() + " left)";
+            await HttpClient.PostAsJsonAsync("api/Spotify/Playback", new { Uri = track.Track.Uri });
+        }
     }
 
     private async Task AddSongToPlaylist(PlaylistInfo playlist)
     {
-        await HttpClient.PostAsJsonAsync("api/Spotify/AddToPlaylist", new { PlaylistId = playlist.PlaylistId, TrackId = CurrentTrack.Track.Uri });
+        if(CurrentTrack != null)
+        {
+            await HttpClient.PostAsJsonAsync("api/Spotify/AddToPlaylist", new { PlaylistId = playlist.PlaylistId, TrackId = CurrentTrack.Track.Uri });
+        }
         playlist.Hide = true;
         StateHasChanged();
     }
 
     private async Task NextSong()
     {
-        await HttpClient.PostAsJsonAsync("api/Spotify/AddToPlaylist", new { PlaylistId = Configuration["GlobalPlaylist"], TrackId = CurrentTrack.Track.Uri });
+        if (CurrentTrack != null)
+            await HttpClient.PostAsJsonAsync("api/Spotify/AddToPlaylist", new { PlaylistId = Configuration["GlobalPlaylist"], TrackId = CurrentTrack.Track.Uri });
         foreach(var playlist in SpotifyInfos.Playlists)
         {
             playlist.Hide = false;

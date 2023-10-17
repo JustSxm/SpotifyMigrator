@@ -15,6 +15,8 @@
         <h2>What do you want to do?</h2>
         <Check TValue="bool" @bind-Checked="@migrateLikedSongs">Migrate liked songs in order</Check>
         <Check TValue="bool" @bind-Checked="@migratePlaylists">Migrate your playlists in order</Check>
+        <Check TValue="bool" @bind-Checked="@migrateAlbums">Migrate followed albums</Check>
+        <Check TValue="bool" @bind-Checked="@migrateArtists">Migrate followed artists</Check>
         <Button Color="Color.Primary" Outline onclick="@StartTransfer" Style="width: 100%">Start Transfer</Button>
     } else {
         <h2>@Title</h2>
@@ -28,6 +30,8 @@
     bool startedTransfer = false;
     bool migrateLikedSongs;
     bool migratePlaylists;
+    bool migrateAlbums;
+    bool migrateArtists;
     int Percent = 15;
     string Title = "";
 
@@ -39,7 +43,9 @@
         var body = new MigrateStartDTO()
         {
             LikedSongs = migrateLikedSongs,
-            Playlists = migratePlaylists
+            Playlists = migratePlaylists,
+            Albums = migrateAlbums,
+            Artists = migrateArtists
         };
         await HttpClient.PostAsJsonAsync("api/Spotify/MigrateAccount", body);
 

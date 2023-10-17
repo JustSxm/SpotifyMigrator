@@ -2,6 +2,7 @@
 using SpotifyAPI.Web;
 using SpotifyMigrator.Shared;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SpotifyMigrator.Server
 {
@@ -56,16 +57,18 @@ namespace SpotifyMigrator.Server
                 }
             }
 
-            if(payload.Playlists) {
+            if (payload.Playlists)
+            {
                 await _hub.Clients.All.SendAsync("MigrateUpdate", "Fetching playlists");
                 var pageOne = await oldClient.Playlists.CurrentUsers();
                 List<SimplePlaylist> playlists = (List<SimplePlaylist>)await oldClient.PaginateAll(pageOne);
                 playlists.Reverse();
 
-                for(var i = 0; i < playlists.Count;i++)
+                for (var i = 0; i < playlists.Count;i++)
                 {
                     var playlist = playlists[i];
-                    if (playlist.Owner.Id == oldUser.Id) {
+                    if (playlist.Owner.Id == oldUser.Id)
+                    {
                         await _hub.Clients.All.SendAsync("MigrateUpdate", $"Migrating playlists [{playlist.Name}] ({i + 1} / {playlists.Count})");
                         PlaylistCreateRequest request = new(playlist.Name);
                         request.Description = playlist.Description;
@@ -76,7 +79,8 @@ namespace SpotifyMigrator.Server
                         List<PlaylistTrack<IPlayableItem>> tracks = (List<PlaylistTrack<IPlayableItem>>)await oldClient.PaginateAll(pageOneTracks);
                         tracks.Reverse();
 
-                        while (tracks.Count != 0) {
+                        while (tracks.Count != 0)
+                        {
                             int count = Math.Min(tracks.Count, 100);
                             var tracksToAdd = tracks.Take(count);
                             var ids = new List<string>();
@@ -112,6 +116,44 @@ namespace SpotifyMigrator.Server
 
                 }
             }
+
+            if (payload.Albums)
+            {
+                await _hub.Clients.All.SendAsync("MigrateUpdate", "Fetching Albums");
+                var pageOne = await oldClient.Library.GetAlbums();
+                List<SavedAlbum> albums = (List<SavedAlbum>)await oldClient.PaginateAll(pageOne);
+                albums.Reverse(); // Oldest first
+
+                for (var i = 0; i < albums.Count; i++)
+                {
+                    var album = albums[i];
+                    await _hub.Clients.All.SendAsync("MigrateUpdate", $"Migrating album [{album.Album.Name}] ({i + 1} / {albums.Count})");
+                    LibrarySaveAlbumsRequest request = new(new List<string>() { album.Album.Id });
+                    await newClient.Library.SaveAlbums(request);
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+            }
+
+            if (payload.Artists)
+            {
+                await _hub.Clients.All.SendAsync("MigrateUpdate", "Fetching Follows");
+                var pageOne = await oldClient.Follow.OfCurrentUser(new FollowOfCurrentUserRequest { Limit = 50 });
+                // We need to supply next=>next.Artists due do nested paging object.
+                var artists = await oldClient.PaginateAll(pageOne.Artists, next => next.Artists);
+                if (artists != null)
+                {
+                    Debug.WriteLine($"Found {artists.Count} artists");
+                    artists.Reverse();
+                    foreach (var artist in artists)
+                    {
+                        await _hub.Clients.All.SendAsync("MigrateUpdate", $"Migrating artist [{artist.Name}]");
+                        FollowRequest request = new FollowRequest(FollowRequest.Type.Artist, new List<string> { artist.Id });
+                        await newClient.Follow.Follow(request);
+                        await Task.Delay(TimeSpan.FromSeconds(1));
+                    }
+                }
+            }
+
             await _hub.Clients.All.SendAsync("MigrateUpdate", "Done");
             Spotify.Migration = null;
         }

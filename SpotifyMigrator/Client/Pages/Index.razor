@@ -21,7 +21,7 @@
     {
         var loginRequest = new LoginRequest(new Uri("http://localhost:5009/api/Spotify"), Configuration["ClientId"] ?? throw new Exception("Client ID not set in appsettings"), LoginRequest.ResponseType.Code)
             {
-                Scope = new[] { Scopes.PlaylistModifyPrivate, Scopes.PlaylistModifyPublic, Scopes.PlaylistReadPrivate, Scopes.UserLibraryRead, Scopes.UserModifyPlaybackState, Scopes.UserReadPrivate, Scopes.UserLibraryModify }
+                Scope = new[] { Scopes.PlaylistModifyPrivate, Scopes.PlaylistModifyPublic, Scopes.PlaylistReadPrivate, Scopes.UserLibraryRead, Scopes.UserModifyPlaybackState, Scopes.UserReadPrivate, Scopes.UserLibraryModify, Scopes.UserFollowRead, Scopes.UserFollowModify }
             };
         var uri = loginRequest.ToUri().AbsoluteUri;
         NavManager.NavigateTo(uri);

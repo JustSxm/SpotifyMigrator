@@ -396,5 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/SpotifyMigrator/Client/wwwroot/appsettings.json
-/SpotifyMigrator/Server/appsettings.json
+appsettings.json
