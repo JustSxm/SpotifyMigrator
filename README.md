@@ -114,7 +114,6 @@ GPL
 
 ## Todo
 
--   [ ] Follow artists/users
 -   [ ] Add you to your collaborative playlists
 -   [ ] Mark your collaborative playlist as collaborative instead of only public/private
 -   [ ] Save Podcasts
